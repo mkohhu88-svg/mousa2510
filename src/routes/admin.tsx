@@ -36,10 +36,10 @@ function AdminPage() {
     );
   }
 
-  const create = async (e: React.FormEvent) => {
+  const create = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
     const { error } = await supabase.from("companies").insert({ name, expires_at: expires || null });
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     toast.success("تم إنشاء الشركة");
     setName(""); setExpires(""); reload();
   };
