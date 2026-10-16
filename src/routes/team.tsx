@@ -22,7 +22,7 @@ export const Route = createFileRoute("/team")({
   component: TeamPage,
 });
 
-type Member = { id: string; user_id: string; role: "manager" | "accountant" | "worker"; email?: string | null; name?: string | null };
+type Member = { id: string; user_id: string; role: "manager" | "accountant" | "worker"; email?: string | null | undefined; name?: string | null | undefined };
 
 export function TeamPanel({ company, canManage, selfId }: { company: CompanyRow; canManage: boolean; selfId: string }) {
   const [members, setMembers] = useState<Member[]>([]);
@@ -38,11 +38,11 @@ export function TeamPanel({ company, canManage, selfId }: { company: CompanyRow;
   };
   useEffect(() => { load(); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [company.id]);
 
-  const add = async (e: React.FormEvent) => {
+  const add = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
     const { data, error } = await supabase.rpc("add_member_by_email", { _company: company.id, _email: email, _role: role });
-    if (error) return toast.error(error.message);
-    if (data === "not_found") return toast.error("هذا البريد غير مسجّل. اطلب من الموظف إنشاء حساب أولاً.");
+    if (error) { toast.error(error.message); return; }
+    if (data === "not_found") { toast.error("هذا البريد غير مسجّل. اطلب من الموظف إنشاء حساب أولاً."); return; }
     toast.success("تمت الإضافة");
     setEmail("");
     load();

@@ -4,7 +4,7 @@ import { LogOut, Shield, Users, LayoutGrid } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 
-export function AppHeader({ isAdmin, email }: { isAdmin?: boolean; email?: string }) {
+export function AppHeader({ isAdmin, email }: { isAdmin?: boolean | undefined; email?: string | undefined }) {
   const navigate = useNavigate();
   const qc = useQueryClient();
   const signOut = async () => {
