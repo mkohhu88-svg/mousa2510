@@ -13,6 +13,8 @@ export const Route = createFileRoute("/team")({
   ssr: false,
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "الفريق والصلاحيات — الصادق" },
       { name: "description", content: "إدارة موظفي الشركة وصلاحياتهم." },
       { property: "og:title", content: "الفريق والصلاحيات — الصادق" },
