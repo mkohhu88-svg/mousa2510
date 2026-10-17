@@ -22,7 +22,7 @@ export const Route = createFileRoute("/app")({
 });
 
 function AppPage() {
-  const { session, isAdmin, companies, ready } = useWorkspace();
+  const { session, isAdmin, companies, ready, error, reload } = useWorkspace();
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -39,6 +39,8 @@ function AppPage() {
       <AppHeader isAdmin={isAdmin} email={session?.user.email} />
       {!ready ? (
         <Center><Loader2 className="size-8 animate-spin text-primary" /></Center>
+      ) : error ? (
+        <Center><div className="text-center"><p className="mb-3 text-destructive">{error}</p><Button onClick={() => { void reload(); }}>إعادة المحاولة</Button></div></Center>
       ) : companies.length === 0 ? (
         <Center>
           <div className="max-w-md rounded-2xl bg-card p-8 text-center shadow-card">
