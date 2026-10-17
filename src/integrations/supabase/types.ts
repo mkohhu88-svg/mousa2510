@@ -172,6 +172,10 @@ export type Database = {
         }
         Returns: boolean
       }
+      sync_company_data: {
+        Args: { _changes: Json; _company: string }
+        Returns: undefined
+      }
     }
     Enums: {
       app_role: "super_admin"

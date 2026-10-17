@@ -8,6 +8,13 @@
       "when": 1792169648326,
       "tag": "0000_multi_company_core",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1792224678881,
+      "tag": "0001_atomic_company_cloud_sync",
+      "breakpoints": true
     }
   ]
 }
