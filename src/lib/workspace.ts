@@ -18,6 +18,7 @@ export function useWorkspace() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [companies, setCompanies] = useState<CompanyRow[]>([]);
   const [ready, setReady] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const reload = useCallback(async () => {
     if (!session) return;
@@ -27,6 +28,12 @@ export function useWorkspace() {
       supabase.from("companies").select("*").order("created_at"),
       supabase.from("company_members").select("company_id, role").eq("user_id", uid),
     ]);
+    if (comps.error || mems.error) {
+      setError("تعذّر تحميل الشركات. تحقق من الاتصال وحاول مرة أخرى.");
+      setReady(true);
+      return;
+    }
+    setError(null);
     const roleMap = new Map((mems.data ?? []).map((m) => [m.company_id, m.role]));
     setIsAdmin(admin);
     setCompanies((comps.data ?? []).map((c) => ({ ...c, role: (roleMap.get(c.id) ?? null) as CompanyRow["role"] })));
@@ -38,5 +45,5 @@ export function useWorkspace() {
     if (session) reload();
   }, [loading, session, navigate, reload]);
 
-  return { session, isAdmin, companies, ready, reload };
+  return { session, isAdmin, companies, ready, reload, error };
 }

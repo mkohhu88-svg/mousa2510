@@ -84,7 +84,6 @@ export function CloudWorkspace({ company, isAdmin, userId }: { company: CompanyR
       } catch { if (active) setStatus("error"); }
     };
     reload.current = load;
-    const retry = () => { if (!loaded) void load(); else void flush(); };
     const onOnline = () => { void (values.size || window.__alsadiqCloud ? flush() : load()); };
     const leave = (event: BeforeUnloadEvent) => {
       if (queue.dirty) { event.preventDefault(); event.returnValue = ""; void flush(); }

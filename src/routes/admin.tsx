@@ -13,6 +13,8 @@ export const Route = createFileRoute("/admin")({
   ssr: false,
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "لوحة مالك النظام — الصادق" },
       { name: "description", content: "إدارة الشركات المشتركة واشتراكاتها." },
       { property: "og:title", content: "لوحة مالك النظام — الصادق" },

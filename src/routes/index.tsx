@@ -11,6 +11,8 @@ import { Label } from "@/components/ui/label";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "الصادق — نظام المحاسبة وإدارة المبيعات للشركات" },
       { name: "description", content: "نظام سحابي للفواتير والمخزون والحسابات وشيتات الورشة، يعمل على الهاتف والكمبيوتر مع صلاحيات للمدير والموظفين." },
       { property: "og:title", content: "الصادق — نظام المحاسبة وإدارة المبيعات" },
@@ -44,8 +46,9 @@ function Landing() {
     e.preventDefault();
     setBusy(true);
     if (mode === "in") {
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) toast.error("بيانات الدخول غير صحيحة");
+      else if (data.session) await navigate({ to: "/app", replace: true });
     } else {
       const { data, error } = await supabase.auth.signUp({
         email, password,

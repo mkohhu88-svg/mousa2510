@@ -2,11 +2,19 @@
 <html lang="ar" dir="rtl">
 <head>
 <script>
-(function(){try{var P=window.parent;if(!P||P===window||!P.__alsadiqSync)return;
-var oS=Storage.prototype.setItem,oR=Storage.prototype.removeItem;
-Storage.prototype.setItem=function(k,v){oS.call(this,k,v);if(this===window.localStorage&&String(k).indexOf('alsadiq_')===0)P.__alsadiqSync(k,String(v));};
-Storage.prototype.removeItem=function(k){oR.call(this,k);if(this===window.localStorage&&String(k).indexOf('alsadiq_')===0)P.__alsadiqSync(k,null);};
-}catch(e){}})();
+(function(){
+  var bridge = window.parent !== window && window.parent.__alsadiqCloud;
+  if (!bridge) return;
+  var originalGet = Storage.prototype.getItem;
+  var originalSet = Storage.prototype.setItem;
+  var originalRemove = Storage.prototype.removeItem;
+  var originalClear = Storage.prototype.clear;
+  function companyKey(key){return String(key).indexOf('alsadiq_')===0 && key!=='alsadiq_active_company';}
+  Storage.prototype.getItem=function(key){return this===window.localStorage && companyKey(key) ? bridge.get(String(key)) : originalGet.call(this,key);};
+  Storage.prototype.setItem=function(key,value){if(this===window.localStorage && companyKey(key)){bridge.set(String(key),String(value));return;}return originalSet.call(this,key,value);};
+  Storage.prototype.removeItem=function(key){if(this===window.localStorage && companyKey(key)){bridge.set(String(key),null);return;}return originalRemove.call(this,key);};
+  Storage.prototype.clear=function(){if(this===window.localStorage){bridge.keys().forEach(function(key){bridge.set(key,null);});return;}return originalClear.call(this);};
+})();
 </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -1544,7 +1552,7 @@ svg[class*="text-blue-"], svg[class*="text-green-"], svg[class*="text-red-"], sv
             <button className={"alsadiq-side-btn " + (activeTab === 'archive' ? 'active' : '')} onClick={() => setActiveTab('archive')}><span>▤</span> المبيعات والأرشيف</button>
             <button className={"alsadiq-side-btn " + (activeTab === 'management' ? 'active' : '')} onClick={() => setActiveTab('management')}><span>▦</span> الحسابات والتقارير</button>
             <div className="alsadiq-side-spacer"></div>
-            <div className="alsadiq-side-status"><b>معمل الصادق كروب</b><br/>أبواب المطابخ HDF<br/>الكوارتز والمرمر<br/><span style={{color:'#86efac'}}>●</span> نسخة محلية — احفظ نسخة احتياطية بانتظام</div>
+            <div className="alsadiq-side-status"><b>معمل الصادق كروب</b><br/>أبواب المطابخ HDF<br/>الكوارتز والمرمر<br/><span style={{color:'#86efac'}}>●</span> {window.parent.__alsadiqCloud ? "متصل بتخزين الشركة السحابي" : "نسخة محلية — احفظ نسخة احتياطية بانتظام"}</div>
           </aside>
           <main className="alsadiq-workspace">
           {/* الهيدر الرئيسي */}
@@ -2812,7 +2820,7 @@ svg[class*="text-blue-"], svg[class*="text-green-"], svg[class*="text-red-"], sv
             <footer className="alsadiq-footer no-print">
               <span>◢ برنامج الصادق للمحاسبة وإدارة المبيعات</span>
               <span>الفواتير المحفوظة: {savedInvoices.length}</span>
-              <span>البيانات الحالية محفوظة محلياً على هذا المتصفح</span>
+              <span>{window.parent.__alsadiqCloud ? "تخزين سحابي للشركة" : "البيانات الحالية محفوظة محلياً على هذا المتصفح"}</span>
             </footer>
           </main>
         </div>
