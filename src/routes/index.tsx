@@ -7,6 +7,7 @@ import { useSession } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { PasswordRecoveryRequest } from "@/components/PasswordRecoveryRequest";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -37,10 +38,11 @@ function Landing() {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [busy, setBusy] = useState(false);
+  const [recover, setRecover] = useState(false);
 
   useEffect(() => {
-    if (session) navigate({ to: "/app" });
-  }, [session, navigate]);
+    if (session && !recover) navigate({ to: "/app" });
+  }, [session, navigate, recover]);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -79,7 +81,7 @@ function Landing() {
             ))}
           </div>
         </div>
-        <form onSubmit={submit} className="rounded-2xl bg-card p-6 text-card-foreground shadow-card md:p-8">
+        {recover ? <section className="rounded-lg bg-card p-6 text-card-foreground shadow-card md:p-8"><h2 className="mb-6 text-2xl font-black">استعادة كلمة المرور</h2><PasswordRecoveryRequest initialEmail={email} /><Button type="button" variant="ghost" className="mt-4 w-full" onClick={() => setRecover(false)}>العودة لتسجيل الدخول</Button></section> : <form onSubmit={submit} className="rounded-2xl bg-card p-6 text-card-foreground shadow-card md:p-8">
           <h2 className="mb-1 text-2xl font-black">{mode === "in" ? "تسجيل الدخول" : "إنشاء حساب"}</h2>
           <p className="mb-6 text-sm text-muted-foreground">{mode === "in" ? "ادخل إلى حساب شركتك" : "بعد التسجيل يضيفك مدير شركتك إلى الفريق"}</p>
           {mode === "up" && (
@@ -88,10 +90,11 @@ function Landing() {
           <div className="mb-4 space-y-1.5"><Label>البريد الإلكتروني</Label><Input type="email" dir="ltr" value={email} onChange={(e) => setEmail(e.target.value)} required /></div>
           <div className="mb-6 space-y-1.5"><Label>كلمة المرور</Label><Input type="password" dir="ltr" minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} required /></div>
           <Button type="submit" disabled={busy} className="w-full bg-gradient-gold font-bold" size="lg">{mode === "in" ? "دخول" : "إنشاء الحساب"}</Button>
-          <button type="button" onClick={() => setMode(mode === "in" ? "up" : "in")} className="mt-4 w-full text-sm text-muted-foreground hover:text-foreground">
+          {mode === "in" && <Button type="button" variant="link" className="mt-2 w-full" onClick={() => setRecover(true)}>نسيت كلمة المرور؟</Button>}
+          <Button type="button" variant="ghost" onClick={() => setMode(mode === "in" ? "up" : "in")} className="mt-4 w-full text-sm text-muted-foreground hover:text-foreground">
             {mode === "in" ? "ليس لديك حساب؟ أنشئ حساباً" : "لديك حساب؟ سجّل الدخول"}
-          </button>
-        </form>
+          </Button>
+        </form>}
       </div>
     </div>
   );
