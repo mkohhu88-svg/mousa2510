@@ -111,8 +111,8 @@ function TeamPage() {
             <li><b className="text-foreground">موظف ورشة:</b> عرض الشيتات والملصقات فقط دون حفظ تعديلات.</li>
           </ul>
         </div>
-        {ready && mine.map((c) => (
-          <TeamPanel key={c.id} company={c} canManage={isAdmin || c.role === "manager"} selfId={session!.user.id} />
+        {ready && session && mine.map((c) => (
+          <TeamPanel key={c.id} company={c} canManage={isAdmin || c.role === "manager"} selfId={session.user.id} />
         ))}
       </main>
     </div>
