@@ -1,8 +1,10 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
-import { LogOut, Shield, Users, LayoutGrid } from "lucide-react";
+import { LogOut, Shield, Users, LayoutGrid, Send } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
+
+export const SUPPORT_TELEGRAM_URL = "https://t.me/K268888885";
 
 export function AppHeader({ isAdmin, email }: { isAdmin?: boolean | undefined; email?: string | undefined }) {
   const navigate = useNavigate();
