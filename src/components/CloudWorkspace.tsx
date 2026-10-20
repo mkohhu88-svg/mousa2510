@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { CloudCheck, CloudUpload, Eye, Loader2, Lock, RefreshCw } from "lucide-react";
+import { CloudCheck, CloudUpload, Eye, Loader2, Lock, RefreshCw, Send } from "lucide-react";
+import { SUPPORT_TELEGRAM_URL } from "@/components/AppHeader";
 import { supabase } from "@/integrations/supabase/client";
 import { companyUsable, type CompanyRow } from "@/lib/workspace";
 import { roleLabels } from "@/lib/auth";
@@ -105,7 +106,7 @@ export function CloudWorkspace({ company, isAdmin, userId }: { company: CompanyR
     };
   }, [company.id, userId, canWrite, usable]);
 
-  if (!usable) return <div className="flex flex-1 items-center justify-center p-6 text-center"><div className="min-w-0 max-w-xl"><Lock className="mx-auto mb-3 size-8 text-destructive" /><h2 className="text-xl font-bold">الاشتراك متوقف</h2><p className="mt-2 text-muted-foreground">اشتراك «{company.name}» منتهٍ أو موقوف.</p><p role="alert" className="mt-4 whitespace-pre-wrap break-words [overflow-wrap:anywhere]">{companySuspensionMessage(company)}</p></div></div>;
+  if (!usable) return <div className="flex flex-1 items-center justify-center p-6 text-center"><div className="min-w-0 max-w-xl"><Lock className="mx-auto mb-3 size-8 text-destructive" /><h2 className="text-xl font-bold">الاشتراك متوقف</h2><p className="mt-2 text-muted-foreground">اشتراك «{company.name}» منتهٍ أو موقوف.</p><p role="alert" className="mt-4 whitespace-pre-wrap break-words [overflow-wrap:anywhere]">{companySuspensionMessage(company)}</p><a href={SUPPORT_TELEGRAM_URL} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-bold text-primary-foreground hover:opacity-90"><Send className="size-4" />تواصل مع الدعم عبر تلجرام</a></div></div>;
   return <>
     <div className="flex flex-wrap items-center gap-2 border-b bg-card px-3 py-2 text-xs">
       <span className="font-bold">{company.name}</span>
