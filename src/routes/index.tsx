@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { Cloud, ShieldCheck, Smartphone, Building2 } from "lucide-react";
+import { Cloud, ShieldCheck, Smartphone, Building2, Send } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useSession } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
@@ -91,6 +91,7 @@ function Landing() {
           <div className="mb-6 space-y-1.5"><Label>كلمة المرور</Label><Input type="password" dir="ltr" minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} required /></div>
           <Button type="submit" disabled={busy} className="w-full bg-gradient-gold font-bold" size="lg">{mode === "in" ? "دخول" : "إنشاء الحساب"}</Button>
           {mode === "in" && <Button type="button" variant="link" className="mt-2 w-full" onClick={() => setRecover(true)}>نسيت كلمة المرور؟</Button>}
+          <a href="https://t.me/K268888885" target="_blank" rel="noopener noreferrer" className="mt-4 flex w-full items-center justify-center gap-2 rounded-md border border-navy-foreground/20 py-2 text-sm font-semibold hover:bg-navy-foreground/10"><Send className="size-4" />تواصل مع الدعم عبر تلجرام</a>
           <Button type="button" variant="ghost" onClick={() => setMode(mode === "in" ? "up" : "in")} className="mt-4 w-full text-sm text-muted-foreground hover:text-foreground">
             {mode === "in" ? "ليس لديك حساب؟ أنشئ حساباً" : "لديك حساب؟ سجّل الدخول"}
           </Button>

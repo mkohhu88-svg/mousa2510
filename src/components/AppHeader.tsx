@@ -1,8 +1,10 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
-import { LogOut, Shield, Users, LayoutGrid } from "lucide-react";
+import { LogOut, Shield, Users, LayoutGrid, Send } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
+
+export const SUPPORT_TELEGRAM_URL = "https://t.me/K268888885";
 
 export function AppHeader({ isAdmin, email }: { isAdmin?: boolean | undefined; email?: string | undefined }) {
   const navigate = useNavigate();
@@ -33,6 +35,15 @@ export function AppHeader({ isAdmin, email }: { isAdmin?: boolean | undefined; e
         </nav>
         <div className="ms-auto flex items-center gap-2">
           <span className="hidden text-xs opacity-70 md:inline">{email}</span>
+          <a
+            href={SUPPORT_TELEGRAM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 rounded-md bg-navy-foreground/10 px-3 py-1.5 text-sm font-semibold hover:bg-navy-foreground/20"
+            title="تواصل مع الدعم عبر تلجرام"
+          >
+            <Send className="size-4" />الدعم
+          </a>
           <Button size="sm" variant="secondary" onClick={signOut}><LogOut className="size-4" /> خروج</Button>
         </div>
       </div>
@@ -40,6 +51,7 @@ export function AppHeader({ isAdmin, email }: { isAdmin?: boolean | undefined; e
         <Link to="/app" className="px-3 py-1">البرنامج</Link>
         <Link to="/team" className="px-3 py-1">الفريق</Link>
         {isAdmin && <Link to="/admin" className="px-3 py-1">لوحة المالك</Link>}
+        <a href={SUPPORT_TELEGRAM_URL} target="_blank" rel="noopener noreferrer" className="flex flex-col items-center px-3 py-1"><Send className="mb-0.5 size-4" />الدعم</a>
       </nav>
     </header>
   );
