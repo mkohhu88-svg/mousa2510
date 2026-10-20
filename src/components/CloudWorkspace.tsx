@@ -5,6 +5,7 @@ import { companyUsable, type CompanyRow } from "@/lib/workspace";
 import { roleLabels } from "@/lib/auth";
 import { CloudQueue, isCompanyKey, pendingStorageKey, type CloudChange } from "@/lib/cloud-sync";
 import { Button } from "@/components/ui/button";
+import { companySuspensionMessage } from "@/lib/company-management";
 
 type Bridge = { get: (key: string) => string | null; set: (key: string, value: string | null) => void; keys: () => string[] };
 declare global { interface Window { __alsadiqCloud?: Bridge } }
@@ -15,7 +16,7 @@ export function CloudWorkspace({ company, isAdmin, userId }: { company: CompanyR
   const [frameKey, setFrameKey] = useState(0);
   const [frameReady, setFrameReady] = useState(false);
   const reload = useRef<(() => Promise<void>) | null>(null);
-  const usable = isAdmin || companyUsable(company);
+  const usable = !company.archived_at && (isAdmin || companyUsable(company));
   const canWrite = usable && (isAdmin || company.role === "manager" || company.role === "accountant");
 
   useEffect(() => {
@@ -104,7 +105,7 @@ export function CloudWorkspace({ company, isAdmin, userId }: { company: CompanyR
     };
   }, [company.id, userId, canWrite, usable]);
 
-  if (!usable) return <div className="flex flex-1 items-center justify-center p-6 text-center"><div><Lock className="mx-auto mb-3 size-8 text-destructive" /><h2 className="text-xl font-bold">الاشتراك متوقف</h2><p className="mt-2 text-muted-foreground">اشتراك «{company.name}» منتهٍ أو موقوف. تواصل مع مزوّد النظام لتجديده.</p></div></div>;
+  if (!usable) return <div className="flex flex-1 items-center justify-center p-6 text-center"><div className="min-w-0 max-w-xl"><Lock className="mx-auto mb-3 size-8 text-destructive" /><h2 className="text-xl font-bold">الاشتراك متوقف</h2><p className="mt-2 text-muted-foreground">اشتراك «{company.name}» منتهٍ أو موقوف.</p><p role="alert" className="mt-4 whitespace-pre-wrap break-words [overflow-wrap:anywhere]">{companySuspensionMessage(company)}</p></div></div>;
   return <>
     <div className="flex flex-wrap items-center gap-2 border-b bg-card px-3 py-2 text-xs">
       <span className="font-bold">{company.name}</span>

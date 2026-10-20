@@ -26,10 +26,10 @@ function AppPage() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!ready || selectedId) return;
+    if (!ready || companies.some((c) => c.id === selectedId)) return;
     const saved = localStorage.getItem("alsadiq_active_company");
     const pick = companies.find((c) => c.id === saved) ?? companies[0];
-    if (pick) setSelectedId(pick.id);
+    setSelectedId(pick?.id ?? null);
   }, [ready, companies, selectedId]);
 
   const company = companies.find((c) => c.id === selectedId) ?? null;

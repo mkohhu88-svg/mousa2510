@@ -8,6 +8,7 @@ import { AppHeader } from "@/components/AppHeader";
 import { TeamPanel } from "./team";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { CompanyOwnerActions } from "@/components/CompanyOwnerActions";
 
 export const Route = createFileRoute("/admin")({
   ssr: false,
@@ -101,7 +102,7 @@ function AdminPage() {
                     {ok ? <CheckCircle2 className="size-4" /> : <XCircle className="size-4" />}{ok ? "فعّال" : "متوقف"}
                   </span>
                   <Input type="date" className="w-40" value={c.expires_at ?? ""} onChange={(e) => update(c.id, { expires_at: e.target.value || null })} />
-                  <Button size="sm" variant={c.active ? "outline" : "default"} onClick={() => update(c.id, { active: !c.active })}>{c.active ? "إيقاف" : "تفعيل"}</Button>
+                   <CompanyOwnerActions company={c} onChanged={reload} />
                   <Button size="sm" variant="secondary" onClick={() => setOpen(open === c.id ? null : c.id)}>الفريق</Button>
                 </div>
                 {open === c.id && session && <div className="mt-4"><TeamPanel company={c} canManage selfId={session.user.id} /></div>}
