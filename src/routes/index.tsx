@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { Cloud, ShieldCheck, Smartphone, Building2 } from "lucide-react";
+import { Cloud, ShieldCheck, Smartphone, Building2, Send } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useSession } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
