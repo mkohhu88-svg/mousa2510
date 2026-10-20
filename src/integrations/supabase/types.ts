@@ -17,30 +17,36 @@ export type Database = {
       companies: {
         Row: {
           active: boolean
+          archived_at: string | null
           created_at: string
           expires_at: string | null
           id: string
           name: string
           phone: string | null
           plan: string
+          suspension_message: string | null
         }
         Insert: {
           active?: boolean
+          archived_at?: string | null
           created_at?: string
           expires_at?: string | null
           id?: string
           name: string
           phone?: string | null
           plan?: string
+          suspension_message?: string | null
         }
         Update: {
           active?: boolean
+          archived_at?: string | null
           created_at?: string
           expires_at?: string | null
           id?: string
           name?: string
           phone?: string | null
           plan?: string
+          suspension_message?: string | null
         }
         Relationships: []
       }
@@ -101,6 +107,41 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "company_members_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      company_owner_events: {
+        Row: {
+          action: string
+          actor_id: string
+          company_id: string
+          created_at: string
+          id: string
+          message: string | null
+        }
+        Insert: {
+          action: string
+          actor_id: string
+          company_id: string
+          created_at?: string
+          id?: string
+          message?: string | null
+        }
+        Update: {
+          action?: string
+          actor_id?: string
+          company_id?: string
+          created_at?: string
+          id?: string
+          message?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "company_owner_events_company_id_fkey"
             columns: ["company_id"]
             isOneToOne: false
             referencedRelation: "companies"
@@ -171,6 +212,10 @@ export type Database = {
           _user_id: string
         }
         Returns: boolean
+      }
+      manage_company_subscription: {
+        Args: { _action: string; _company: string; _message?: string }
+        Returns: undefined
       }
       sync_company_data: {
         Args: { _changes: Json; _company: string }

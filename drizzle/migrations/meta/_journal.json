@@ -15,6 +15,13 @@
       "when": 1792224678881,
       "tag": "0001_atomic_company_cloud_sync",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1792473074022,
+      "tag": "0002_owner_company_removal_and_suspension_message",
+      "breakpoints": true
     }
   ]
 }
