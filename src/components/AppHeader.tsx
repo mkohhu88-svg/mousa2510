@@ -3,6 +3,8 @@ import { useQueryClient } from "@tanstack/react-query";
 import { LogOut, Shield, Users, LayoutGrid, Send } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
+import { CopyrightBar } from "@/components/Copyright";
+
 
 export const SUPPORT_TELEGRAM_URL = "https://t.me/K268888885";
 
@@ -53,6 +55,8 @@ export function AppHeader({ isAdmin, email }: { isAdmin?: boolean | undefined; e
         {isAdmin && <Link to="/admin" className="px-3 py-1">لوحة المالك</Link>}
         <a href={SUPPORT_TELEGRAM_URL} target="_blank" rel="noopener noreferrer" className="flex flex-col items-center px-3 py-1"><Send className="mb-0.5 size-4" />الدعم</a>
       </nav>
+      <CopyrightBar />
     </header>
+
   );
 }
