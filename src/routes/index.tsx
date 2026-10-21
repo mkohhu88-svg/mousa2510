@@ -99,6 +99,8 @@ function Landing() {
           </Button>
         </form>}
       </div>
+      <LandingFooter />
     </div>
+
   );
 }
