@@ -1,4 +1,5 @@
 # Current owner request
+- [ ] Complete server-enforced invoice/sales authorization and test it in an isolated draft of this same project; main and published application share a backend, so production policy rollout requires successful isolated tests and explicit acceptance.
 - [x] Add confirmed safe company removal and a custom subscription-suspension message; owner UI save/read-back/removal and database non-owner denial verified; 8 targeted tests passed.
 
 # Cloud storage completion
