@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PasswordRecoveryRequest } from "@/components/PasswordRecoveryRequest";
+import { LandingFooter } from "@/components/Copyright";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
